@@ -1,20 +1,28 @@
 import React, { useEffect } from 'react'
-import { Card, Container, Grid, GridColumn, Icon, Image, Segment, Popup, SemanticCOLORS } from 'semantic-ui-react'
+import { Card, Grid, GridColumn, Icon, Image, Popup, SemanticCOLORS } from 'semantic-ui-react'
 import { toDate } from '../utils';
 import { CarsProps } from '../Pages/MainPage'
 
 interface carsPropsData {
-    data: CarsProps[];
+    displayedData: CarsProps[];
 }
 
-const CarCard = ({ data }: carsPropsData): JSX.Element => {
-
-    const reNameCars: { [key: string]: string } = {
-        car: "Автомобиль",
-        truck: "Грузовой автомобиль",
-        bus: "Автобус",
-        motorcycle: "Мотоцикл",
-    }
+export const reNameCars: { [key: string]: string } = {
+    car: "Автомобиль",
+    truck: "Грузовой автомобиль",
+    bus: "Автобус",
+    motorcycle: "Мотоцикл",
+}
+export const reNameColors: { [key: string]: string } = {
+    black: 'Черный',
+    red: 'Красный',
+    green: 'Зеленый',
+    blue: 'Синий',
+    yellow: 'Желтый',
+    silver: 'Серебрянный',
+    white: 'Белый'
+}
+const CarCard = ({ displayedData }: carsPropsData): JSX.Element => {
     const colorsCars: { [key: string]: SemanticCOLORS } = {
         black: 'black',
         red: 'red',
@@ -22,26 +30,17 @@ const CarCard = ({ data }: carsPropsData): JSX.Element => {
         blue: 'blue',
         yellow: 'yellow',
         silver: 'grey',
-    }
-
-    const reNameColors: { [key: string]: string } = {
-        black: 'Черный',
-        red: 'Красный',
-        green: 'Зеленый',
-        blue: 'Синий',
-        yellow: 'Желтый',
-        silver: 'Серебрянный',
-        white: 'Белый'
+        white: "grey",
     }
 
     const renderCards = () => {
-        return (data.length) ? data.map((value, index) => {
+        return (displayedData.length) ? displayedData.map((value, index) => {
             return (
-                <GridColumn width={4} key={value.id}>
+                <GridColumn key={value.id}>
                     <Card color={colorsCars[value.color] || ''}>
                         <Card.Content>
                             <Card.Header>{reNameCars[value.carClass]}</Card.Header>
-                            <Popup content={value.plate} trigger={<Image size='small' src={`https://www.car72.ru/nomer/rus/${value.plate}.png`} wrapped ui={false} />} />
+                            <Popup hoverable content={value.plate} trigger={<Image size='small' src={`https://www.car72.ru/nomer/rus/${value.plate}.png`} wrapped ui={false} />} />
                             <Card.Description>
                                 Скорость: {value.speed} КМ/Ч
                             </Card.Description>
@@ -60,7 +59,7 @@ const CarCard = ({ data }: carsPropsData): JSX.Element => {
         }) : <></>
     }
     return (
-        <Grid>
+        <Grid columns={5}>
             {renderCards()}
         </Grid>
     )

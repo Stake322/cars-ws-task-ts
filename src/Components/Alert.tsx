@@ -15,11 +15,8 @@ function Alert({ open, info, setOpen }: Props): JSX.Element {
     const intervalRef = useRef<NodeJS.Timeout>();
     useEffect(() => {
         const closePopup = () => setOpen(false);
-        if (open) {
-            intervalRef.current = setTimeout(closePopup, 1500)
-        }
+        if (open) intervalRef.current = setTimeout(closePopup, 1500)
         return () => clearInterval(intervalRef.current as NodeJS.Timeout)
-
     }, [open])
     return (
         <div>
